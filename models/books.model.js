@@ -21,7 +21,7 @@ const bookSchema = new Schema({
   desc: {type: String,required: true},
   cover: {type: String,required: true},
   covers:[{type: String}],
-  language: {type: String,required: true}, 
+  language:{type: String,required: true}, 
   numPage:{type:Number,required: true,min:[0,'must more than 0'],},
   countInStock:{type:Number,required: true,min:[0,'must more than 0'],},
   richDes:{type: String,default:''},// comment user 

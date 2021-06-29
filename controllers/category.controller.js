@@ -71,6 +71,7 @@ showSingleCategoryById = async (req, res) => {
     })
   }
 }
+
 editCategory = async (req, res) => {
   try {
     const _id = req.params.id
@@ -83,7 +84,7 @@ editCategory = async (req, res) => {
     if (!editCategory) res.status(404).send('Category not found')
     res.status(200).send({
       status: true,
-      result: showCategory,
+      result: editCategory,
       message: 'successfuly edit Category'
     })
   }

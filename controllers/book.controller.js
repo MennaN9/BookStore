@@ -71,7 +71,7 @@ addBook = async (req, res) => {
       res.status(200).send({
         status: true,
         result: deleteBook,
-        message: 'book  successfuly deleted'
+        message: 'book successfuly deleted'
       })
     }
     catch (e) {
@@ -82,33 +82,35 @@ addBook = async (req, res) => {
       })
     }
   }
-  editBook = async (req, res) => {////////////////////////////////
+  editBook = async (req, res) => {
     try {
-      // if(!mongoose.isValidObjectId(req.params.id)){
-      //   return res.status(400).send('Invalid book Id')
-      // }
-      //  const category = await Category.findById(req.body.category);
-      // if(!category) return res.status(400).send('Invalid Category')
-     const edit = await Books.findByIdAndUpdate(req.params.id,
-        {
-          authors: req.body.authors,
-          price: req.body.price,
-          bookName: req.body.bookName,
-          cover: req.body.cover,
-          desc: req.body.desc,
-          numPage: req.body.numPage,
-          countInStock:req.body.countInStock,
-          numReviews:req.body.numReviews,
-          language: req.body.language,
-          category: req.body.category,
-          richDes: req.body.richDes,
-          dateInsert:req.body.dateInsert,
-          rating: req.body.rating,
-          isFeatured: req.body.isFeatured,
-        },
-       //  { new: true }
+      if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(400).send('Invalid book Id')
+      }
+       const category = await Category.findById(req.body.category);
+      if(!category) return res.status(400).send('Invalid Category')
+     const edit = await Books.findByIdAndUpdate(
+       req.params.id,
+        req.body,
+        // {
+        //   authors: req.body.authors,
+        //   price: req.body.price,
+        //   bookName: req.body.bookName,
+        //   cover: req.body.cover,
+        //   desc: req.body.desc,
+        //   numPage: req.body.numPage,
+        //   countInStock:req.body.countInStock,
+        //   numReviews:req.body.numReviews,
+        //   language: req.body.language,
+        //   category: req.body.category,
+        //   richDes: req.body.richDes,
+        //   dateInsert:req.body.dateInsert,
+        //   rating: req.body.rating,
+        //   isFeatured: req.body.isFeatured,
+        // },
+       // { new: true }
          );
-        await Books.save()
+         if (!edit) res.status(404).send('book not found')
         res.status(200).send({
           status: true,
           result: edit,
