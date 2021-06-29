@@ -41,53 +41,12 @@ addBook = async (req, res) => {
       })
     }
   }
-  editBook = async (req, res) => {
-    try {
-      const _id = req.params.id
-      if(!_id){
-        return res.status(400).send('Invalid book Id')
-      }
-      const category = await Category.findById(req.body.category);
-      if(!category) return res.status(400).send('Invalid Category')
-      
-      const updatedData = req.body;
-      await Books.findByIdAndUpdate(_id,
-        {
-          authors: updatedData.authors,
-          price: updatedData.price,
-          bookName: updatedData.bookName,
-          cover: updatedData.cover,
-          desc: updatedData.desc,
-          numPage: updatedData.numPage,
-          countInStock: updatedData.countInStock,
-          numReviews: updatedData.numReviews,
-          language: updatedData.language,
-          category: updatedData.category,
-          richDes: updatedData.richDes,
-          dateInsert:updatedData.dateInsert,
-          rating: updatedData.rating,
-          isFeatured: updatedData.isFeatured,
-        }, { new: true },);
-        res.status(200).send({
-          status: true,
-          result: updatedData,
-          message: "updated book data"
-        })
-  
-    } catch (e) {
-      res.status(500).send({
-        status: false,
-        result: e,
-        message: "error in editing"
-      })
-    }
-  }
   
   showSingleBookById = async (req, res) => {
     try {
       const _id = req.params.id
       const showBook = await Books.findById(_id).populate('Category')
-      if (!showBook) res.send('book not found')
+      if (!showBook) res.status(404).send('book not found')
       res.status(200).send({
         status: true,
         result: showBook,
@@ -106,10 +65,8 @@ addBook = async (req, res) => {
   DeleteBook = async (req, res) => {
     try {
       if(!mongoose.isValidObjectId(req.params.id)) return res.status(400).send('invalid book id')
-      const category = await Category.findById(req.body.category);
-      if(!category) return res.status(400).send('Invalid Category')
       const _id = req.params.id
-      const deleteBook = await Books.findByIdAndDelete(_id)
+      const deleteBook = await Books.findByIdAndRemove(_id)
       if (!deleteBook) res.send('book not found')
       res.status(200).send({
         status: true,
@@ -125,10 +82,99 @@ addBook = async (req, res) => {
       })
     }
   }
+  editBook = async (req, res) => {////////////////////////////////
+    try {
+      // if(!mongoose.isValidObjectId(req.params.id)){
+      //   return res.status(400).send('Invalid book Id')
+      // }
+      //  const category = await Category.findById(req.body.category);
+      // if(!category) return res.status(400).send('Invalid Category')
+     const edit = await Books.findByIdAndUpdate(req.params.id,
+        {
+          authors: req.body.authors,
+          price: req.body.price,
+          bookName: req.body.bookName,
+          cover: req.body.cover,
+          desc: req.body.desc,
+          numPage: req.body.numPage,
+          countInStock:req.body.countInStock,
+          numReviews:req.body.numReviews,
+          language: req.body.language,
+          category: req.body.category,
+          richDes: req.body.richDes,
+          dateInsert:req.body.dateInsert,
+          rating: req.body.rating,
+          isFeatured: req.body.isFeatured,
+        },
+       //  { new: true }
+         );
+        await Books.save()
+        res.status(200).send({
+          status: true,
+          result: edit,
+          message: "updated book data"
+        })
+  
+    } catch (e) {
+      res.status(500).send({
+        status: false,
+        result: e,
+        message: "error"
+      })
+    }
+  }
+  numOfBook=async(req,res)=>{
+    const bookCount = await Books.countDocuments((count)=> count)
+    try {
+      if(!bookCount){
+        res.status(500).send({
+          status: false,
+         // result: e,
+          message: "out of the stock"
+        })
+      }
+      res.status(200).send({
+        status: true,
+        result: bookCount,
+        message: "in the stock"
+      })
+    } catch (e) {
+      res.status(500).send({
+        status: false,
+        result: e,
+        message: "error in editing"
+      })
+    }
+ }
+ featuredBooks=async(req,res)=>{
+  const featuredBook = await Books.find({isFeatured:true})
+  try {
+    if(!featuredBook){
+      res.status(500).send({
+        status: false,
+       // result: e,
+        message: "no featured book"
+      })
+    }
+    res.status(200).send({
+      status: true,
+      result: featuredBook,
+      message: "featured books"
+    })
+  } catch (e) {
+    res.status(500).send({
+      status: false,
+      result: e,
+      message: "error in show data"
+    })
+  }
+}
   module.exports = {
     addBook,
     allBook,
     editBook,
     showSingleBookById,
-    DeleteBook
+    DeleteBook,
+    numOfBook,
+    featuredBooks
   }

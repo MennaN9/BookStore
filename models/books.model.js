@@ -8,10 +8,10 @@ const bookSchema = new Schema({
         desc:{type:String,required:true},
         anothWork:{type:String,required:true}}
     ],
-//   type:{type:String,
-//        enum:['Religious','programming','novels','fantasy','science'],
-//        required:true
-//       },
+   //   type:{type:String,
+   //        enum:['Religious','programming','novels','fantasy','science'],
+   //        required:true
+  //       },
   category:{ type: mongoose.Schema.Types.ObjectId,
               ref:'Category',
               required: true

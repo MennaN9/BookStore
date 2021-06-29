@@ -38,7 +38,7 @@ deleteCategory= async(req,res)=>{
   try{
     _id = req.param.id
     const delcategory =await category.findByIdAndDelete(_id)
-    if (!delcategory) res.send('category not found')
+    if (!delcategory) res.status(404).send('category not found')
     res.status(200).send({
       status: true,
       result: delcategory,
@@ -56,7 +56,7 @@ showSingleCategoryById = async (req, res) => {
   try {
     const _id = req.params.id
     const showCategory = await category.findById(_id)
-    if (!showCategory) res.send('Category not found')
+    if (!showCategory) res.status(404).send('Category not found')
     res.status(200).send({
       status: true,
       result: showCategory,
@@ -80,7 +80,7 @@ editCategory = async (req, res) => {
     },
     {new:true}
     )
-    if (!editCategory) res.send('Category not found')
+    if (!editCategory) res.status(404).send('Category not found')
     res.status(200).send({
       status: true,
       result: showCategory,
