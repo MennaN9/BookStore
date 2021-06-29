@@ -30,5 +30,8 @@
  - filtering
  - population
  - some statistics purposes
+ 
+  ## user & Authentication
+   main steps
 
 > run project by ```npm test```
