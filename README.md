@@ -1,5 +1,5 @@
  # BookStore :books:
-----------------------------------------------------------------------
+
 
  dataBase table
  | users  | category | books | order | orderItem |
@@ -19,3 +19,14 @@
  | apartment  |     | numReviews  |
  | userName  |      | isFeatured  |
  | suggestName |    | dateInsert  |
+ 
+ 
+ ## category & Books
+ main steps
+ - schemes
+ - CRUD operations
+ - filtering
+ - population
+ - some statistics purposes
+
+> run project by ```npm test```
